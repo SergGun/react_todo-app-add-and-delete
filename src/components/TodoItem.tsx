@@ -8,11 +8,7 @@ type Props = {
   isLoading?: boolean;
 };
 
-export const TodoItem: React.FC<Props> = ({ 
-  todo,
-  onDelete,
-  isLoading, 
-}) => {
+export const TodoItem: React.FC<Props> = ({ todo, onDelete, isLoading }) => {
   return (
     <div
       data-cy="Todo"

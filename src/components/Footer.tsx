@@ -10,11 +10,11 @@ type Props = {
   onClearCompleted: () => void;
 };
 
-export const Footer: React.FC<Props> = ({ 
-  todos, 
-  filter, 
+export const Footer: React.FC<Props> = ({
+  todos,
+  filter,
   setFilter,
-  onClearCompleted, 
+  onClearCompleted,
 }) => {
   const activeCount = todos.filter(todo => !todo.completed).length;
 

@@ -17,6 +17,7 @@ export const App: React.FC = () => {
   const [loadingIds, setLoadingIds] = useState<number[]>([]);
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const errorTimer = useRef<number | null>(null);
 
   // -------------------------
   // ERROR HANDLER
@@ -24,7 +25,11 @@ export const App: React.FC = () => {
   const showError = (message: string) => {
     setError(message);
 
-    setTimeout(() => {
+    if (errorTimer.current) {
+      clearTimeout(errorTimer.current);
+    }
+
+    errorTimer.current = window.setTimeout(() => {
       setError('');
     }, 3000);
   };
@@ -36,6 +41,7 @@ export const App: React.FC = () => {
     const load = async () => {
       try {
         const data = await getTodos();
+
         setTodos(data);
       } catch {
         showError('Unable to load todos');
@@ -88,6 +94,7 @@ export const App: React.FC = () => {
 
     if (!trimmed) {
       showError('Title should not be empty');
+
       return;
     }
 
@@ -172,18 +179,15 @@ export const App: React.FC = () => {
               loadingIds={loadingIds}
             />
 
-            {tempTodo && (
-              <TodoList todos={[tempTodo]} loadingIds={[0]} />
-            )}
-
+            {tempTodo && <TodoList todos={[tempTodo]} loadingIds={[0]} />}
 
             {todos.length > 0 && (
-            <Footer
-              todos={todos}
-              filter={filter}
-              setFilter={setFilter}
-              onClearCompleted={handleClearCompleted}
-            />
+              <Footer
+                todos={todos}
+                filter={filter}
+                setFilter={setFilter}
+                onClearCompleted={handleClearCompleted}
+              />
             )}
           </>
         )}
